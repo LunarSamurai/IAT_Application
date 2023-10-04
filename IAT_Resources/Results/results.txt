@@ -1,0 +1,6 @@
+Image: download
+  Key A pressed in 1028.5705 ms.
+Image: download
+  Key L pressed in 512.1046 ms.
+Image: images
+  Key A pressed in 479.9192 ms.

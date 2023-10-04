@@ -5,12 +5,89 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IAT_Application"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Image Name="DisplayedImage" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50">
-            <Button Name="Button1" Content="Option 1" Width="100" Height="50" Click="Button1_Click" Margin="10"/>
-            <Button Name="Button2" Content="Option 2" Width="100" Height="50" Click="Button2_Click" Margin="10"/>
-        </StackPanel>
+        Title="Implicit Attitude Test" Height="450" Width="800"
+        WindowState="Maximized"
+        Background="#F5F5F5">
+    <Window.Resources>
+        <!-- ToolTip Custom Style -->
+        <Style TargetType="ToolTip">
+            <Setter Property="Canvas.ZIndex" Value="9999"/>
+            <!-- This ensures the tooltip is on top -->
+            <Setter Property="Placement" Value="Bottom"/>
+            <Setter Property="VerticalOffset" Value="3"/>
+            <Setter Property="Background" Value="#333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HasDropShadow" Value="True"/>
+        </Style>
+    </Window.Resources>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <!-- Start Screen -->
+        <Grid x:Name="StartScreen">
+            <TextBlock Name="Title" Text="Implicit Attitude Test" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+            <Button Name="StartButton" Content="Start" Width="150" Height="60" Click="StartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,291,0,0"/>
+        </Grid>
+
+        <!-- Main Content -->
+        <Grid x:Name="MainContent" Visibility="Collapsed">
+            <TextBlock Name="PlusSymbol" Text="+" FontSize="250" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+            <!-- Image Box -->
+            <Border Name="ImageBox" Width="400" Height="300" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,20,20,90">
+                <Viewbox Margin="0,-28,0,28">
+                    <Image Name="DisplayedImage" Stretch="Uniform"/>
+                </Viewbox>
+            </Border>
+            <!-- Button Stack -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,325,0,0">
+                <!-- Option 1 Button -->
+                <Button Name="Button1" IsEnabled="True" Content="Option 1" Width="150" Height="60" Margin="20"
+                        Background="#FFFFFF" Foreground="Black" BorderThickness="0"
+                        FontSize="16" FontWeight="Medium"
+                        ToolTipService.Placement="Bottom" ToolTipService.VerticalOffset="3"
+                        ToolTip="Press A">
+                    <!-- Hover animation -->
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#388E3C" Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Button.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#FFFFFF" Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+                <!-- Option 2 Button -->
+                <Button Name="Button2" IsEnabled="True" Content="Option 2" Width="150" Height="60" Margin="20"
+                        Background="Black" Foreground="White" BorderThickness="0"
+                        FontSize="16" FontWeight="Medium"
+                        ToolTipService.Placement="Bottom" ToolTipService.VerticalOffset="3"
+                        ToolTip="Press L">
+                    <!-- Hover animation -->
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#FFA000" Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Button.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="Black" Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
