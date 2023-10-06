@@ -1,6 +1,20 @@
-Image: download
-  Key A pressed in 1028.5705 ms.
-Image: download
-  Key L pressed in 512.1046 ms.
-Image: images
-  Key A pressed in 479.9192 ms.
+Image: 1
+  Key A pressed in 648.5415 ms.
+Image: 10
+  Key L pressed in 506.6255 ms.
+Image: 2
+  Key A pressed in 593.9842 ms.
+Image: 3
+  Key L pressed in 1035.7362 ms.
+Image: 4
+  Key A pressed in 482.4119 ms.
+Image: 5
+  Key L pressed in 557.854 ms.
+Image: 6
+  Key A pressed in 417.2131 ms.
+Image: 7
+  Key L pressed in 323.6348 ms.
+Image: 8
+  Key A pressed in 261.9684 ms.
+Image: 9
+  Key L pressed in 231.9492 ms.

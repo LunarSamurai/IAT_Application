@@ -31,12 +31,15 @@ namespace IAT_Application
         private enum AppState
         {
             Start,
+            Description1,
+            Modifier1,
             PlusSymbol,
             DisplayImage,
             AwaitingKeyPress,
+            Description2,
+            Modifier2,
             End
         }
-
 
         public MainWindow()
         {
@@ -54,24 +57,18 @@ namespace IAT_Application
             this.KeyDown += MainWindow_KeyDown; // 6. Attach the key down event handler
         }
 
-
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            Title.Visibility = Visibility.Collapsed;
-            StartButton.Visibility = Visibility.Collapsed;
+            StartScreen.Visibility = Visibility.Collapsed; // Hide the start screen
 
-            // Set the initial state to PlusSymbol and display the plus symbol
-            _currentState = AppState.PlusSymbol;
-            PlusSymbol.Visibility = Visibility.Visible;
+            MainContent.Visibility = Visibility.Visible; // Make the main content grid visible
 
-            // Start the timer after the plus symbol is displayed
-            _timer.Start();
-
-            // Load the first image
-            LoadNextImage();
-
-            MainContent.Visibility = Visibility.Visible;
+            DescriptionTextBlockGrid.Visibility = Visibility.Visible; // Show the description grid
         }
+
+
+
+
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
@@ -97,6 +94,49 @@ namespace IAT_Application
                 }
             }
         }
+        private string LoadContentFromFile(string relativePath)
+        {
+            // Get the base directory of the currently executing assembly
+            string basePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            // Navigate up three directories from the bin directory to the root of your project
+            string projectRootPath = Directory.GetParent(Directory.GetParent(Directory.GetParent(basePath).FullName).FullName).FullName;
+
+            // Combine the project root directory with the relative path to get the absolute path
+            string fullPath = System.IO.Path.Combine(projectRootPath, relativePath);
+
+            // Check if the file exists
+            if (!System.IO.File.Exists(fullPath))
+            {
+                throw new Exception($"File not found: {fullPath}");
+            }
+
+            // Read and return the content of the file
+            return System.IO.File.ReadAllText(fullPath);
+        }
+
+
+        private void DisplayContent(AppState state)
+        {
+            string content = string.Empty;
+            switch (state)
+            {
+                case AppState.Description1:
+                    content = LoadContentFromFile(@"IAT_Resources\Description\Description1\Description1.txt");
+                    break;
+                case AppState.Modifier1:
+                    content = LoadContentFromFile(@"IAT_Resources\Modifiers\Modifier1\Modifier1.txt");
+                    break;
+                case AppState.Description2:
+                    content = LoadContentFromFile(@"IAT_Resources\Description\Description2\Description2.txt");
+                    break;
+                case AppState.Modifier2:
+                    content = LoadContentFromFile(@"IAT_Resources\Modifiers\Modifier2\Modifier2.txt");
+                    break;
+            }
+            DescriptionTextBlock.Text = content;
+        }
+
 
         private void LoadImagesFromFolder(params string[] relativePathParts)
         {
@@ -119,54 +159,106 @@ namespace IAT_Application
                                    .ToList();
         }
 
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentState != AppState.Description1 && _currentState != AppState.Description2)
+            {
+                // Set the initial state to PlusSymbol and display the plus symbol
+                _currentState = AppState.PlusSymbol;
+                PlusSymbol.Visibility = Visibility.Visible;
+
+                // Start the timer after the plus symbol is displayed
+                _timer.Start();
+
+                MainContent.Visibility = Visibility.Visible;
+                // Move to the next state when the "Continue" button is pressed
+                LoadNextImage();
+            }   
+            else if(_currentState == AppState.Description1)
+            {
+                _currentState = AppState.Modifier1;
+            }
+            else if (_currentState == AppState.Description2)
+            {
+                _currentState = AppState.Modifier2;
+            }
+
+
+        }
+
         private void LoadNextImage()
         {
-            if (_currentState == AppState.PlusSymbol)
+            switch (_currentState)
             {
-                // Show ImageBox and buttons
-                ImageBox.Visibility = Visibility.Visible;
-                Button1.Visibility = Visibility.Visible;
-                Button2.Visibility = Visibility.Visible;
+                case AppState.Start:
+                    DisplayContent(AppState.Description1);
+                    _currentState = AppState.Description1;
+                    _timer.Start();
+                    break;
 
-                PlusSymbol.Visibility = Visibility.Collapsed;
-                if (_currentImageIndex < _imagePaths.Count)
-                {
-                    _currentImageName = System.IO.Path.GetFileNameWithoutExtension(_imagePaths[_currentImageIndex]); // Get the image file name without extension
-                    DisplayedImage.Source = new BitmapImage(new Uri(_imagePaths[_currentImageIndex], UriKind.Absolute));
-                    _currentImageIndex++;                    
-                    _currentState = AppState.AwaitingKeyPress;
-                    _rsptStartTime = DateTime.Now; // Set the _rsptStartTime when an image is shown.
-                }
-                else
-                {
-                    _currentState = AppState.End;
-                    // No need to show the plus symbol at the end
-                }
-            }
-            else if (_currentState == AppState.DisplayImage || _currentState == AppState.AwaitingKeyPress)
-            {
-                if (_currentImageIndex >= _imagePaths.Count)
-                {
-                    _currentState = AppState.End;
+                case AppState.Description1:
+                    DisplayContent(AppState.Modifier1);
+                    _currentState = AppState.Modifier1;
+                    _timer.Start();
+                    break;
+
+                case AppState.Modifier1:
+                    _currentState = AppState.PlusSymbol;
+                    _timer.Start();
+                    break;
+
+                case AppState.PlusSymbol:
+                    DescriptionTextBlockGrid.Visibility = Visibility.Collapsed;
+                    if (_currentImageIndex >= _imagePaths.Count)
+                    {
+                        DisplayContent(AppState.Description2);
+                        _currentState = AppState.Description2;
+                        _timer.Start();
+                    }
+                    else
+                    {
+                        ImageBox.Visibility = Visibility.Visible;
+                        PlusSymbol.Visibility = Visibility.Collapsed;
+
+                        _currentImageName = System.IO.Path.GetFileNameWithoutExtension(_imagePaths[_currentImageIndex]);
+                        DisplayedImage.Source = new BitmapImage(new Uri(_imagePaths[_currentImageIndex], UriKind.Absolute));
+                        _currentState = AppState.DisplayImage;
+                        _rsptStartTime = DateTime.Now;
+                    }
+                    break;
+
+                case AppState.DisplayImage:
+                case AppState.AwaitingKeyPress:
+                    _currentImageIndex++;
+
+                    ImageBox.Visibility = Visibility.Collapsed;
+                    DescriptionTextBlockGrid.Visibility = Visibility.Collapsed;
+                    DisplayedImage.Source = null;
+                    PlusSymbol.Visibility = Visibility.Visible;
+
+                    _currentState = AppState.PlusSymbol;
+                    _timer.Start();
+                    break;
+
+                case AppState.Description2:
+                    DisplayContent(AppState.Modifier2);
+                    _currentState = AppState.Modifier2;
+                    _timer.Start();
+                    break;
+
+                case AppState.Modifier2:
+                    _currentImageIndex = 0; // Reset image index to start over with the images
+                    _currentState = AppState.PlusSymbol;
+                    _timer.Start();
+                    break;
+
+                case AppState.End:
                     SaveResults();
                     MessageBox.Show("Test completed! Results saved.", "Completion", MessageBoxButton.OK, MessageBoxImage.Information);
                     this.Close();
-                }
-                else
-                {
-                    // Hide ImageBox and buttons
-                    ImageBox.Visibility = Visibility.Collapsed;
-                    Button1.Visibility = Visibility.Collapsed;
-                    Button2.Visibility = Visibility.Collapsed;
-
-                    PlusSymbol.Visibility = Visibility.Visible;
-                    DisplayedImage.Source = null;
-                    _timer.Start();            
-                    _currentState = AppState.PlusSymbol;
-                }
+                    break;
             }
         }
-
 
 
 
