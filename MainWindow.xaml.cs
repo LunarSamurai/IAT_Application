@@ -29,7 +29,16 @@ namespace IAT_Application
         private AppState _currentState;
         private string _currentImageName;
         private bool _secondSetDisplayed = false;
-        
+        private string descriptionValue;
+        private string isMilitary;
+        private string whatsThumbsUp;
+        private string modifierThumbsUpValue;
+        private string whatsThumbsDown;
+        private string modifierThumbsDownValue;
+        private List<string> militaryImages = new List<string>();
+        private List<string> nonMilitaryImages = new List<string>();
+        private string answer;
+
         private enum AppState
         {
             Start,
@@ -72,26 +81,41 @@ namespace IAT_Application
         {
             if (_currentState == AppState.DisplayImage || _currentState == AppState.AwaitingKeyPress)
             {
-                if (e.Key == Key.A || e.Key == Key.L)
-                {
-                    TimeSpan reactionTime = DateTime.Now - _rsptStartTime;
-                    _results.Add($"Image: {_currentImageName}\n  Key {e.Key} pressed in {reactionTime.TotalMilliseconds} ms.");
+                string answer = "Incorrect"; // Default to incorrect
 
-                    if (_currentState == AppState.End)
+                if (militaryImages.Contains(_imagePaths[_currentImageIndex]) && isMilitary == "Military")
+                {
+                    if (descriptionValue == whatsThumbsUp && e.Key.ToString() == modifierThumbsUpValue)
                     {
-                        // Save results and show a completion message
-                        SaveResults();
-                        MessageBox.Show("Test completed! Results saved.", "Completion", MessageBoxButton.OK, MessageBoxImage.Information);
-                        this.Close();
+                        answer = "Correct";
                     }
-                    else
+                }
+                else if (nonMilitaryImages.Contains(_imagePaths[_currentImageIndex]) && isMilitary == "NonMilitary")
+                {
+                    if (descriptionValue == whatsThumbsUp && e.Key.ToString() == modifierThumbsUpValue)
                     {
-                        // Continue with the test
-                        LoadNextImage();
+                        answer = "Correct";
                     }
+                }
+
+                TimeSpan reactionTime = DateTime.Now - _rsptStartTime;
+                _results.Add($"{descriptionValue}: {isMilitary}, ImageName: {_currentImageName}, Key Pressed: {e.Key}, ThumbsUp: {modifierThumbsUpValue}, ThumbsDown: {modifierThumbsDownValue}, Answer: {answer}, pressed in {reactionTime.TotalMilliseconds} ms");
+
+                if (_currentState == AppState.End)
+                {
+                    // Save results and show a completion message
+                    SaveResults();
+                    MessageBox.Show("Test completed! Results saved.", "Completion", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
+                }
+                else
+                {
+                    // Continue with the test
+                    LoadNextImage();
                 }
             }
         }
+
 
         private string LoadContentFromFile(string relativePath)
         {
@@ -110,10 +134,45 @@ namespace IAT_Application
                 throw new Exception($"File not found: {fullPath}");
             }
 
-            // Read and return the content of the file
-            return System.IO.File.ReadAllText(fullPath);
-        }
+            // Read all lines from the file
+            var lines = System.IO.File.ReadAllLines(fullPath);
 
+            // Process the Description files
+            if (relativePath == @"IAT_Resources\Description\Description1\Description1.txt" ||
+                relativePath == @"IAT_Resources\Description\Description2\Description2.txt")
+            {
+                // Check if we have at least two lines
+                if (lines.Length >= 2)
+                {
+                    // Set the two variables with the first two lines
+                    descriptionValue = lines[0];
+                    isMilitary = lines[1];
+
+                    // Return the content of the file, skipping the first two lines
+                    return string.Join(Environment.NewLine, lines.Skip(2));
+                }
+            }
+            // Process the Modifier files
+            else if (relativePath == @"IAT_Resources\Modifiers\Modifier1\Modifier1.txt" ||
+                     relativePath == @"IAT_Resources\Modifiers\Modifier2\Modifier2.txt")
+            {
+                // Check if we have at least four lines
+                if (lines.Length >= 4)
+                {
+                    // Set the four variables with the first four lines
+                    whatsThumbsUp = lines[0];
+                    modifierThumbsUpValue = lines[1];
+                    whatsThumbsDown = lines[2];
+                    modifierThumbsDownValue = lines[3];
+
+                    // Return the content of the file, skipping the first four lines
+                    return string.Join(Environment.NewLine, lines.Skip(4));
+                }
+            }
+
+            // For other files, return the entire content
+            return string.Join(Environment.NewLine, lines);
+        }
 
         private void DisplayContent(AppState state)
         {
@@ -145,8 +204,6 @@ namespace IAT_Application
             _currentState = AppState.DisplayImage;
             _rsptStartTime = DateTime.Now;
         }
-
-
         private void LoadImagesFromFolder(params string[] relativePathParts)
         {
             // Navigate up from the bin directory to the root of your project
@@ -166,7 +223,20 @@ namespace IAT_Application
             _imagePaths = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
                                    .Where(file => new string[] { ".jpeg", ".jpg", ".png", ".bmp" }.Any(ext => file.EndsWith(ext)))
                                    .ToList();
+
+            foreach (var imagePath in _imagePaths)
+            {
+                if (System.IO.Path.GetFileNameWithoutExtension(imagePath).Contains("Military"))
+                {
+                    militaryImages.Add(imagePath);
+                }
+                else
+                {
+                    nonMilitaryImages.Add(imagePath);
+                }
+            }
         }
+
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {

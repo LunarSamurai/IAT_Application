@@ -1,40 +1,20 @@
-Image: 1
-  Key L pressed in 601.7189 ms.
-Image: 10
-  Key A pressed in 385.288 ms.
-Image: 2
-  Key L pressed in 407.8893 ms.
-Image: 3
-  Key A pressed in 652.7289 ms.
-Image: 4
-  Key L pressed in 470.7446 ms.
-Image: 5
-  Key A pressed in 380.9228 ms.
-Image: 6
-  Key L pressed in 372.475 ms.
-Image: 7
-  Key A pressed in 283.673 ms.
-Image: 8
-  Key L pressed in 295.9807 ms.
-Image: 9
-  Key A pressed in 272.2595 ms.
-Image: 1
-  Key L pressed in 507.6041 ms.
-Image: 10
-  Key A pressed in 369.7934 ms.
-Image: 2
-  Key L pressed in 454.2663 ms.
-Image: 3
-  Key A pressed in 447.6021 ms.
-Image: 4
-  Key L pressed in 459.4127 ms.
-Image: 5
-  Key A pressed in 495.3594 ms.
-Image: 6
-  Key L pressed in 516.3473 ms.
-Image: 7
-  Key A pressed in 438.931 ms.
-Image: 8
-  Key L pressed in 614.2689 ms.
-Image: 9
-  Key A pressed in 878.8287 ms.
+ThumbsUp: Military, ImageName: 10Dog, Key Pressed: L, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 1479.6295 ms
+ThumbsUp: Military, ImageName: 1Bird, Key Pressed: A, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 443.3477 ms
+ThumbsUp: Military, ImageName: 2Military_Tank, Key Pressed: A, ThumbsUp: A, ThumbsDown: L, Answer: Correct, pressed in 799.3255 ms
+ThumbsUp: Military, ImageName: 3Military_Helicopter, Key Pressed: L, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 470.077 ms
+ThumbsUp: Military, ImageName: 4Military_Medic, Key Pressed: A, ThumbsUp: A, ThumbsDown: L, Answer: Correct, pressed in 314.2786 ms
+ThumbsUp: Military, ImageName: 5Medical, Key Pressed: L, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 718.1279 ms
+ThumbsUp: Military, ImageName: 6Military_Gun, Key Pressed: A, ThumbsUp: A, ThumbsDown: L, Answer: Correct, pressed in 700.2596 ms
+ThumbsUp: Military, ImageName: 7Tesla, Key Pressed: L, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 443.8862 ms
+ThumbsUp: Military, ImageName: 8Hummer, Key Pressed: L, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 463.3082 ms
+ThumbsUp: Military, ImageName: 9Military_Hummer, Key Pressed: L, ThumbsUp: A, ThumbsDown: L, Answer: Incorrect, pressed in 574.4488 ms
+ThumbsDown: NonMilitary, ImageName: 10Dog, Key Pressed: L, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 1527.0585 ms
+ThumbsDown: NonMilitary, ImageName: 1Bird, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 335.9383 ms
+ThumbsDown: NonMilitary, ImageName: 2Military_Tank, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 895.6185 ms
+ThumbsDown: NonMilitary, ImageName: 3Military_Helicopter, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 502.981 ms
+ThumbsDown: NonMilitary, ImageName: 4Military_Medic, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 657.8689 ms
+ThumbsDown: NonMilitary, ImageName: 5Medical, Key Pressed: L, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 788.9172 ms
+ThumbsDown: NonMilitary, ImageName: 6Military_Gun, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 730.8307 ms
+ThumbsDown: NonMilitary, ImageName: 7Tesla, Key Pressed: L, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 719.3464 ms
+ThumbsDown: NonMilitary, ImageName: 8Hummer, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 537.336 ms
+ThumbsDown: NonMilitary, ImageName: 9Military_Hummer, Key Pressed: A, ThumbsUp: L, ThumbsDown: A, Answer: Incorrect, pressed in 470.8844 ms

@@ -1,1 +1,5 @@
+ThumbsUp
+L
+ThumbsDown
+A
 For this portion of the test, please press thumbs up images that ARE NOT Military related. 
