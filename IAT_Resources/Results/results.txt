@@ -1,20 +1,40 @@
 Image: 1
-  Key A pressed in 648.5415 ms.
+  Key L pressed in 601.7189 ms.
 Image: 10
-  Key L pressed in 506.6255 ms.
+  Key A pressed in 385.288 ms.
 Image: 2
-  Key A pressed in 593.9842 ms.
+  Key L pressed in 407.8893 ms.
 Image: 3
-  Key L pressed in 1035.7362 ms.
+  Key A pressed in 652.7289 ms.
 Image: 4
-  Key A pressed in 482.4119 ms.
+  Key L pressed in 470.7446 ms.
 Image: 5
-  Key L pressed in 557.854 ms.
+  Key A pressed in 380.9228 ms.
 Image: 6
-  Key A pressed in 417.2131 ms.
+  Key L pressed in 372.475 ms.
 Image: 7
-  Key L pressed in 323.6348 ms.
+  Key A pressed in 283.673 ms.
 Image: 8
-  Key A pressed in 261.9684 ms.
+  Key L pressed in 295.9807 ms.
 Image: 9
-  Key L pressed in 231.9492 ms.
+  Key A pressed in 272.2595 ms.
+Image: 1
+  Key L pressed in 507.6041 ms.
+Image: 10
+  Key A pressed in 369.7934 ms.
+Image: 2
+  Key L pressed in 454.2663 ms.
+Image: 3
+  Key A pressed in 447.6021 ms.
+Image: 4
+  Key L pressed in 459.4127 ms.
+Image: 5
+  Key A pressed in 495.3594 ms.
+Image: 6
+  Key L pressed in 516.3473 ms.
+Image: 7
+  Key A pressed in 438.931 ms.
+Image: 8
+  Key L pressed in 614.2689 ms.
+Image: 9
+  Key A pressed in 878.8287 ms.

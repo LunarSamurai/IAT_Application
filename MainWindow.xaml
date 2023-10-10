@@ -32,10 +32,8 @@
         <Grid x:Name="MainContent" Visibility="Collapsed">
             <TextBlock Name="PlusSymbol" Text="+" FontSize="250" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
             <!-- Image Box -->
-            <Border Name="ImageBox" Width="400" Height="300" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,20,20,90" Visibility="Collapsed">
-                <Viewbox Margin="0,-28,0,28">
-                    <Image Name="DisplayedImage" Stretch="Uniform"/>
-                </Viewbox>
+            <Border Name="ImageBox" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+                <Image Name="DisplayedImage" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Border>
             <StackPanel x:Name="DescriptionTextBlockGrid" Visibility="Collapsed">
                 <!-- Description TextBlock -->

@@ -28,6 +28,8 @@ namespace IAT_Application
         private DispatcherTimer _timer;
         private AppState _currentState;
         private string _currentImageName;
+        private bool _secondSetDisplayed = false;
+        
         private enum AppState
         {
             Start,
@@ -66,13 +68,9 @@ namespace IAT_Application
             DescriptionTextBlockGrid.Visibility = Visibility.Visible; // Show the description grid
         }
 
-
-
-
-
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (_currentState != AppState.PlusSymbol) // Check if the current state is not PlusSymbol
+            if (_currentState == AppState.DisplayImage || _currentState == AppState.AwaitingKeyPress)
             {
                 if (e.Key == Key.A || e.Key == Key.L)
                 {
@@ -94,6 +92,7 @@ namespace IAT_Application
                 }
             }
         }
+
         private string LoadContentFromFile(string relativePath)
         {
             // Get the base directory of the currently executing assembly
@@ -137,6 +136,16 @@ namespace IAT_Application
             DescriptionTextBlock.Text = content;
         }
 
+        private void DisplayImage()
+        {
+            ImageBox.Visibility = Visibility.Visible;
+            PlusSymbol.Visibility = Visibility.Collapsed;
+            _currentImageName = System.IO.Path.GetFileNameWithoutExtension(_imagePaths[_currentImageIndex]);
+            DisplayedImage.Source = new BitmapImage(new Uri(_imagePaths[_currentImageIndex], UriKind.Absolute));
+            _currentState = AppState.DisplayImage;
+            _rsptStartTime = DateTime.Now;
+        }
+
 
         private void LoadImagesFromFolder(params string[] relativePathParts)
         {
@@ -161,29 +170,41 @@ namespace IAT_Application
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentState != AppState.Description1 && _currentState != AppState.Description2)
-            {
-                // Set the initial state to PlusSymbol and display the plus symbol
-                _currentState = AppState.PlusSymbol;
-                PlusSymbol.Visibility = Visibility.Visible;
+            DescriptionTextBlockGrid.Visibility = Visibility.Collapsed; // Hide the description and button by default
+            PlusSymbol.Visibility = Visibility.Collapsed; // Hide the plus symbol by default
 
-                // Start the timer after the plus symbol is displayed
-                _timer.Start();
-
-                MainContent.Visibility = Visibility.Visible;
-                // Move to the next state when the "Continue" button is pressed
-                LoadNextImage();
-            }   
-            else if(_currentState == AppState.Description1)
+            switch (_currentState)
             {
-                _currentState = AppState.Modifier1;
+                case AppState.Description1:
+                    _currentState = AppState.Modifier1;
+                    DisplayContent(_currentState);
+                    DescriptionTextBlockGrid.Visibility = Visibility.Visible; // Show the description and button
+                    break;
+
+                case AppState.Modifier1:
+                    _currentState = AppState.PlusSymbol;
+                    PlusSymbol.Visibility = Visibility.Visible;
+                    _timer.Start();
+                    break;
+
+                case AppState.Description2:
+                    _currentState = AppState.Modifier2;
+                    DisplayContent(_currentState);
+                    DescriptionTextBlockGrid.Visibility = Visibility.Visible; // Show the description and button
+                    break;
+
+                case AppState.Modifier2:
+                    _currentImageIndex = 0; // Reset image index to start over with the images
+                    _currentState = AppState.PlusSymbol;
+                    PlusSymbol.Visibility = Visibility.Visible;
+                    _timer.Start();
+                    break;
+
+                default:
+                    // For all other states, we'll just progress to the next image/state.
+                    LoadNextImage();
+                    break;
             }
-            else if (_currentState == AppState.Description2)
-            {
-                _currentState = AppState.Modifier2;
-            }
-
-
         }
 
         private void LoadNextImage()
@@ -193,13 +214,11 @@ namespace IAT_Application
                 case AppState.Start:
                     DisplayContent(AppState.Description1);
                     _currentState = AppState.Description1;
-                    _timer.Start();
                     break;
 
                 case AppState.Description1:
                     DisplayContent(AppState.Modifier1);
                     _currentState = AppState.Modifier1;
-                    _timer.Start();
                     break;
 
                 case AppState.Modifier1:
@@ -208,22 +227,32 @@ namespace IAT_Application
                     break;
 
                 case AppState.PlusSymbol:
-                    DescriptionTextBlockGrid.Visibility = Visibility.Collapsed;
-                    if (_currentImageIndex >= _imagePaths.Count)
+                    DescriptionTextBlockGrid.Visibility = Visibility.Collapsed; // Ensure description is hidden
+
+                    if (_currentImageIndex < _imagePaths.Count && !_secondSetDisplayed)
                     {
+                        // Display images from the first set
+                        DisplayImage();
+                    }
+                    else if (!_secondSetDisplayed)
+                    {
+                        // Transition to the Description2 state after the first set of images
+                        _secondSetDisplayed = true;
+                        _currentImageIndex = 0; // Reset the image index for the second set
                         DisplayContent(AppState.Description2);
                         _currentState = AppState.Description2;
-                        _timer.Start();
+                        DescriptionTextBlockGrid.Visibility = Visibility.Visible;
+                        PlusSymbol.Visibility = Visibility.Collapsed;
+                    }
+                    else if (_currentImageIndex < _imagePaths.Count && _secondSetDisplayed)
+                    {
+                        // Display images from the second set
+                        DisplayImage();
                     }
                     else
                     {
-                        ImageBox.Visibility = Visibility.Visible;
-                        PlusSymbol.Visibility = Visibility.Collapsed;
-
-                        _currentImageName = System.IO.Path.GetFileNameWithoutExtension(_imagePaths[_currentImageIndex]);
-                        DisplayedImage.Source = new BitmapImage(new Uri(_imagePaths[_currentImageIndex], UriKind.Absolute));
-                        _currentState = AppState.DisplayImage;
-                        _rsptStartTime = DateTime.Now;
+                        _currentState = AppState.End;
+                        LoadNextImage(); // Process the end state
                     }
                     break;
 
@@ -259,8 +288,6 @@ namespace IAT_Application
                     break;
             }
         }
-
-
 
         private void Timer_Tick(object sender, EventArgs e)
         {
