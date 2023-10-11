@@ -67,7 +67,7 @@ namespace IAT_Application
 
             // Initialize and start the timer for the splash screen
             _splashTimer = new DispatcherTimer();
-            _splashTimer.Interval = TimeSpan.FromSeconds(5);  // Set to your desired duration
+            _splashTimer.Interval = TimeSpan.FromSeconds(8);  // Set to your desired duration
             _splashTimer.Tick += OnSplashTimerTick;
             _splashTimer.Start();
 
