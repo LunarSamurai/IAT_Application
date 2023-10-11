@@ -39,9 +39,9 @@
                     </Image>
                 </Border>
             </StackPanel>
-            <TextBlock Text="Verus Sententia Project" Foreground="Green" FontSize="70" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,105,0,0" Height="86" Width="780">
+            <TextBlock Text="Verus Sententiae Project" Foreground="Green" FontSize="70" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,105,0,0" Height="86" Width="780">
             </TextBlock>
-            <TextBlock Text="Verus Sententia Project" Foreground="White" FontSize="70" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,105,0,0">
+            <TextBlock Text="Verus Sententiae Project" Foreground="White" FontSize="70" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,105,0,0">
                 <TextBlock.Effect>
                     <DropShadowEffect x:Name="GlowEffect" Color="Green" ShadowDepth="0" BlurRadius="40" Opacity="0.8"/>
                 </TextBlock.Effect>
