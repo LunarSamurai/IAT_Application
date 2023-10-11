@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 using System.Windows.Threading;
 
 namespace IAT_Application
@@ -38,6 +39,7 @@ namespace IAT_Application
         private List<string> militaryImages = new List<string>();
         private List<string> nonMilitaryImages = new List<string>();
         private string answer;
+        private readonly DispatcherTimer _splashTimer = new DispatcherTimer();
 
         private enum AppState
         {
@@ -55,6 +57,20 @@ namespace IAT_Application
         public MainWindow()
         {
             InitializeComponent(); // 1. Initialize UI components
+
+            // Setting the animated GIF for the splash screen
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(@"\IAT_Resources\Logo\logo.gif", UriKind.RelativeOrAbsolute);
+            image.EndInit();
+            ImageBehavior.SetAnimatedSource(img, image);  // Assuming SplashImage is the name of your Image control in XAML
+
+            // Initialize and start the timer for the splash screen
+            _splashTimer = new DispatcherTimer();
+            _splashTimer.Interval = TimeSpan.FromSeconds(5);  // Set to your desired duration
+            _splashTimer.Tick += OnSplashTimerTick;
+            _splashTimer.Start();
+
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) }; // 2. Set up your timer and its event
             _timer.Tick += Timer_Tick;
             LoadImagesFromFolder("IAT_Resources", "Images"); // 3. Load the images from the folder
@@ -66,6 +82,14 @@ namespace IAT_Application
             LoadNextImage();
 
             this.KeyDown += MainWindow_KeyDown; // 6. Attach the key down event handler
+        }
+
+        private void OnSplashTimerTick(object sender, EventArgs e)
+        {
+            _splashTimer.Stop();
+            SplashScreen.Visibility = Visibility.Collapsed;
+            // Show other main content if needed
+            StartScreen.Visibility = Visibility.Visible;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -83,16 +107,30 @@ namespace IAT_Application
             {
                 string answer = "Incorrect"; // Default to incorrect
 
-                if (militaryImages.Contains(_imagePaths[_currentImageIndex]) && isMilitary == "Military")
+                // If the current test is for "Military" images
+                if (isMilitary == "Military")
                 {
-                    if (descriptionValue == whatsThumbsUp && e.Key.ToString() == modifierThumbsUpValue)
+                    // If the image name contains "Military" and the key pressed matches modifierThumbsUpValue
+                    if (militaryImages.Contains(_imagePaths[_currentImageIndex]) && e.Key.ToString() == modifierThumbsUpValue)
+                    {
+                        answer = "Correct";
+                    }
+                    // If the image name does not contain "Military" and the key pressed matches modifierThumbsDownValue
+                    else if (nonMilitaryImages.Contains(_imagePaths[_currentImageIndex]) && e.Key.ToString() == modifierThumbsDownValue)
                     {
                         answer = "Correct";
                     }
                 }
-                else if (nonMilitaryImages.Contains(_imagePaths[_currentImageIndex]) && isMilitary == "NonMilitary")
+                // If the current test is for "NonMilitary" images
+                else if (isMilitary == "NonMilitary")
                 {
-                    if (descriptionValue == whatsThumbsUp && e.Key.ToString() == modifierThumbsUpValue)
+                    // If the image name does not contain "Military" and the key pressed matches modifierThumbsUpValue
+                    if (nonMilitaryImages.Contains(_imagePaths[_currentImageIndex]) && e.Key.ToString() == modifierThumbsUpValue)
+                    {
+                        answer = "Correct";
+                    }
+                    // If the image name contains "Military" and the key pressed matches modifierThumbsDownValue
+                    else if (militaryImages.Contains(_imagePaths[_currentImageIndex]) && e.Key.ToString() == modifierThumbsDownValue)
                     {
                         answer = "Correct";
                     }
@@ -115,6 +153,7 @@ namespace IAT_Application
                 }
             }
         }
+
 
 
         private string LoadContentFromFile(string relativePath)

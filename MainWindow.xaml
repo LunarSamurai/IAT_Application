@@ -21,15 +21,114 @@
             <Setter Property="HasDropShadow" Value="True"/>
         </Style>
     </Window.Resources>
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <!-- Start Screen -->
-        <Grid x:Name="StartScreen">
-            <TextBlock Name="Title" Text="Implicit Attitude Test" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
-            <Button Name="StartButton" Content="Start" Width="150" Height="60" Click="StartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,291,0,0"/>
-        </Grid>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+        <!-- Splash Screen -->
+        <Grid x:Name="SplashScreen" Background="Black">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border Width="1400" Height="300" HorizontalAlignment="Center"  Margin="0,100,0,0" VerticalAlignment="Center" ClipToBounds="True" CornerRadius="15">
+                    <Image x:Name="img" Width="1400">
+                        <Image.OpacityMask>
+                            <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.53" RadiusY="0.5">
+                                <GradientStop Color="#FFFFFFFF" Offset="0.0" />
+                                <GradientStop Color="#00FFFFFF" Offset="1.0" />
+                            </RadialGradientBrush>
+                        </Image.OpacityMask>
+                        <Image.Source>
+                            <BitmapImage UriSource="/IAT_Application;component/IAT_Resources/Logo/Logo.gif"/>
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </StackPanel>
+            <TextBlock Text="Verus Sententia Project" Foreground="Green" FontSize="70" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,105,0,0" Height="86" Width="780">
+            </TextBlock>
+            <TextBlock Text="Verus Sententia Project" Foreground="White" FontSize="70" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,105,0,0">
+                <TextBlock.Effect>
+                    <DropShadowEffect x:Name="GlowEffect" Color="Green" ShadowDepth="0" BlurRadius="40" Opacity="0.8"/>
+                </TextBlock.Effect>
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetName="GlowEffect" 
+                                     Storyboard.TargetProperty="BlurRadius" 
+                                     From="20" To="25" 
+                                     Duration="0:0:1" 
+                                     AutoReverse="True"/>
+                                <DoubleAnimation Storyboard.TargetName="GlowEffect" 
+                                     Storyboard.TargetProperty="Opacity" 
+                                     From="0.8" To="1" 
+                                     Duration="0:0:1" 
+                                     AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
 
+        </Grid>
+        <!-- Start Screen -->
+        <Grid x:Name="StartScreen" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+            <TextBlock Name="Title" Text="Implicit Attitude Test" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+            <Button x:Name="StartButton" Content="Start" Width="150" Height="60" Click="StartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,291,0,0" Cursor="Hand">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <!-- Rounded corners -->
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="BorderElement" Background="{TemplateBinding Background}" BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Effect="{TemplateBinding Effect}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <!-- Gradient background when not mouse over -->
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#FFD3D3D3" Offset="0.0"/>
+                                    <GradientStop Color="#FFA1A1A1" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <!-- Animation for property changes -->
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform x:Name="Transform" ScaleX="1" ScaleY="1"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <!-- Gradient background and shadow effect when mouse is over -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FFA1A1A1" Offset="0.0"/>
+                                            <GradientStop Color="#FFD3D3D3" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="15" Opacity="0.3"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!-- Scale down button when pressed -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
         <!-- Main Content -->
-        <Grid x:Name="MainContent" Visibility="Collapsed">
+        <Grid x:Name="MainContent" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Name="PlusSymbol" Text="+" FontSize="250" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
             <!-- Image Box -->
             <Border Name="ImageBox" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
@@ -38,7 +137,63 @@
             <StackPanel x:Name="DescriptionTextBlockGrid" Visibility="Collapsed">
                 <!-- Description TextBlock -->
                 <TextBlock x:Name="DescriptionTextBlock" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,20,20,50" TextWrapping="Wrap"/>
-                <Button x:Name="ContinueButton" Content="Continue" Width="150" Height="60" Click="ContinueButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,290,0,20"/>
+                <Button x:Name="ContinueButton" Content="Continue" Width="150" Height="60" Click="ContinueButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,290,0,20" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <!-- Rounded corners -->
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="BorderElement" Background="{TemplateBinding Background}" BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Effect="{TemplateBinding Effect}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <!-- Gradient background when not mouse over -->
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FFD3D3D3" Offset="0.0"/>
+                                        <GradientStop Color="#FFA1A1A1" Offset="1.0"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <!-- Animation for property changes -->
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform x:Name="Transform" ScaleX="1" ScaleY="1"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <!-- Gradient background and shadow effect when mouse is over -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#FFA1A1A1" Offset="0.0"/>
+                                                <GradientStop Color="#FFD3D3D3" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="15" Opacity="0.3"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <!-- Scale down button when pressed -->
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
