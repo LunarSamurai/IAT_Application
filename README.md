@@ -39,5 +39,5 @@
 
   Inside of the Results Folder will be the results.txt that will hold all of the accurate results that was outputted once the end user finished taking their test. 
 
-# Thankyou for entrusting me with development of your tool :0
+# Thankyou for entrusting me with the development of your tool :0
   -- Joseph Craig
