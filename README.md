@@ -1,9 +1,9 @@
-# Verus Sententia Project
+# Verus Sententiae Project
 ### IAT_Application
 *Built by Joseph Craig for the Us Army Research Institute*
 
 ## Purpose
-*Verus Sententia: "Verus" means "true" and "Sententia" means "opinion" or "thought". This implies discovering one's true thoughts or opinions. Bringing new life and meaning to this tool/product*
+*Verus Sententiae: "Verus" means "true" and "Sententiae" means "opinion" or "thought". This implies discovering one's true thoughts or opinions. Bringing new life and meaning to this tool/product*
 - Purpose of this tool/product is to be able to be fully customizable on the fly; thus the images being shown and various elements for rapid Implicit Attitude Testing can be modified right before testing.
 - Keeping in mind the modularity and purposeablity for the researchers whom may encounter this tool.
 - The Following Documentation shall act as a guide for which you may fallback onto should you be caught in a peril.
