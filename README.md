@@ -1,6 +1,6 @@
 # Verus Sententia Project
 ### IAT_Application
-*Built by Joseph Craig for Us Army Research Institute*
+*Built by Joseph Craig for the Us Army Research Institute*
 
 ## Purpose
 *Verus Sententia: "Verus" means "true" and "Sententia" means "opinion" or "thought". This implies discovering one's true thoughts or opinions. Bringing new life and meaning to this tool/product*
